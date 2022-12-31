@@ -7,3 +7,10 @@ quarkus:
       limits:
         cpu: 500m
         memory: 1Gi
+
+# Note that the file name must have only alphabetic characters or underscores (_).
+  openapi-generator:
+    codegen:
+      spec:
+        api_spec_yaml:
+          base-package: org.continuouspoker.player
