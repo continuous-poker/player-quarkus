@@ -2,8 +2,8 @@ on: [push]
 
 env:
   DEPLOYMENT_NAME: ${{ secrets.TEAMNAME }}
-  DEPLOYMENT_PORT: ${{ secrets.PORT }}
   DEPLOYMENT_TOKEN: ${{ secrets.TOKEN }}
+  NAMESPACE: ${{ secrets.NAMESPACE }}
 
 jobs:
   build:
@@ -30,7 +30,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
         run: |
-          mvn --batch-mode --update-snapshots clean package -Dquarkus.container-image.build=true -Dquarkus.container-image.group=ghcr.io/${{ github.repository_owner }} -Dquarkus.container-image.name=${{ env.DEPLOYMENT_NAME }} -Dquarkus.container-image.tag=latest -Dquarkus.kubernetes.service-type=NodePort -Dquarkus.kubernetes.node-port=${{ env.DEPLOYMENT_PORT }}
+          mvn --batch-mode --update-snapshots clean package -Dquarkus.container-image.build=true -Dquarkus.container-image.group=ghcr.io/${{ github.repository_owner }} -Dquarkus.container-image.name=${{ env.DEPLOYMENT_NAME }} -Dquarkus.container-image.tag=latest -Dquarkus.kubernetes.service-type=LoadBalancer
 
       - name: Log in to registry
         run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u ${{ github.actor }} --password-stdin
@@ -42,7 +42,7 @@ jobs:
       - name: Deploy
         run: |-
           echo "${{ env.DEPLOYMENT_TOKEN }}" > kubeconfig.yaml
-          kubectl --kubeconfig kubeconfig.yaml --namespace techdays apply -f target/kubernetes/kubernetes.yml
-          kubectl --kubeconfig kubeconfig.yaml --namespace techdays rollout status deployment/${{ env.DEPLOYMENT_NAME }}
-          kubectl --kubeconfig kubeconfig.yaml --namespace techdays get services -o wide
+          kubectl --kubeconfig kubeconfig.yaml --namespace ${{ env.NAMESPACE }} apply -f target/kubernetes/kubernetes.yml
+          kubectl --kubeconfig kubeconfig.yaml --namespace ${{ env.NAMESPACE }} rollout status deployment/${{ env.DEPLOYMENT_NAME }}
+          kubectl --kubeconfig kubeconfig.yaml --namespace ${{ env.NAMESPACE }} get services -o wide
           rm kubeconfig.yaml
