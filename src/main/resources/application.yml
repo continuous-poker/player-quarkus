@@ -7,6 +7,9 @@ quarkus:
       limits:
         cpu: 500m
         memory: 1Gi
+    ingress:
+      annotations:
+        "cert-manager.io/cluster-issuer": letsencrypt-prod
 
 # Note that the file name must have only alphabetic characters or underscores (_).
   openapi-generator:
