@@ -48,7 +48,7 @@ jobs:
           -Dquarkus.kubernetes.ingress.tls.=true \
           -Dquarkus.kubernetes.ingress.host=${{ env.DEPLOYMENT_NAME }}.play.continuouspoker.org \
           -Dquarkus.kubernetes.ingress.ingress-class-name=nginx \
-          -Dquarkus.kubernetes.annotations."cert-manager.io/cluster-issuer"=letsencrypt-prod \
+          -Dquarkus.kubernetes.ingress.annotations."cert-manager.io/cluster-issuer"=letsencrypt-prod \
           -Dquarkus.kubernetes.ingress.tls.letsencrypt-nginx-private-key.enabled=true \
           -Dquarkus.kubernetes.ingress.tls.letsencrypt-nginx-private-key.hosts=${{ env.DEPLOYMENT_NAME }}.play.continuouspoker.org \
           -Dquarkus.kubernetes.name=${{ env.DEPLOYMENT_NAME }}
