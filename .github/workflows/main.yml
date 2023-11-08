@@ -40,7 +40,17 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
         run: |
-          mvn --batch-mode --update-snapshots clean package -Dquarkus.container-image.build=true -Dquarkus.container-image.image=ghcr.io/${{ env.IMAGE_REPOSITORY }}:latest -Dquarkus.kubernetes.service-type=ClusterIP -Dquarkus.kubernetes.ingress.expose=true -Dquarkus.kubernetes.ingress.host=${{ env.DEPLOYMENT_NAME }}.play.continuouspoker.org -Dquarkus.kubernetes.ingress.ingress-class-name=nginx -Dquarkus.kubernetes.name=${{ env.DEPLOYMENT_NAME }}
+          mvn --batch-mode --update-snapshots clean package \
+          -Dquarkus.container-image.build=true \
+          -Dquarkus.container-image.image=ghcr.io/${{ env.IMAGE_REPOSITORY }}:latest \
+          -Dquarkus.kubernetes.service-type=ClusterIP \
+          -Dquarkus.kubernetes.ingress.expose=true \
+          -Dquarkus.kubernetes.ingress.tls.=true \
+          -Dquarkus.kubernetes.ingress.host=${{ env.DEPLOYMENT_NAME }}.play.continuouspoker.org \
+          -Dquarkus.kubernetes.ingress.ingress-class-name=nginx \
+          -Dquarkus.kubernetes.ingress.tls.letsencrypt-nginx-private-key.enabled=true \
+          -Dquarkus.kubernetes.ingress.tls.letsencrypt-nginx-private-key.hosts=${{ env.DEPLOYMENT_NAME }}.play.continuouspoker.org \
+          -Dquarkus.kubernetes.name=${{ env.DEPLOYMENT_NAME }}
 
       - name: Log in to registry
         run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u ${{ github.actor }} --password-stdin
