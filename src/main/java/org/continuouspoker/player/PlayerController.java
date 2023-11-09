@@ -1,9 +1,6 @@
 package org.continuouspoker.player;
 
-import jakarta.ws.rs.Consumes;
-import jakarta.ws.rs.POST;
-import jakarta.ws.rs.Path;
-import jakarta.ws.rs.Produces;
+import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 import org.continuouspoker.player.logic.Strategy;
 import org.continuouspoker.player.model.Bet;
@@ -18,6 +15,12 @@ public class PlayerController {
    public Bet action(final Table table) {
       final Strategy player = new Strategy();
       return player.decide(table);
+   }
+
+   @GET
+   @Produces(MediaType.TEXT_PLAIN)
+   public String hello() {
+      return "Quarkus Poker Player";
    }
 
 }
