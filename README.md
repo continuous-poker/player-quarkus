@@ -96,3 +96,15 @@ retrieve their bets. This is a sample JSON of the table information provided to 
 Now it's your turn! Start implementing the Strategy class to do more than just fold every turn.
 Or rework the whole application. You can do what you want, as long as you provide the endpoint that is registered in the game.
 Have fun!
+
+## Contribution
+
+Please refer to our [contribution guidelines](CONTRIBUTING.md) if you wish to contribute to our open source project.
+
+## License
+
+This program and the accompanying materials are made available under the terms
+of the Apache License, Version 2.0 which is available at
+https://www.apache.org/licenses/LICENSE-2.0.
+
+SPDX-License-Identifier: Apache-2.0
