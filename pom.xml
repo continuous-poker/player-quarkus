@@ -15,6 +15,8 @@
         <quarkus.platform.artifact-id>quarkus-bom</quarkus.platform.artifact-id>
         <quarkus.platform.group-id>io.quarkus.platform</quarkus.platform.group-id>
         <quarkus.platform.version>3.5.1</quarkus.platform.version>
+        <checkstyle-plugin.version>3.3.1</checkstyle-plugin.version>
+        <checkstyle.version>10.12.6</checkstyle.version>
         <surefire-plugin.version>3.2.2</surefire-plugin.version>
     </properties>
     <dependencyManagement>
@@ -149,6 +151,32 @@
             </activation>
             <build>
                 <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-checkstyle-plugin</artifactId>
+                        <version>${checkstyle-plugin.version}</version>
+                        <dependencies>
+                            <dependency>
+                                <groupId>com.puppycrawl.tools</groupId>
+                                <artifactId>checkstyle</artifactId>
+                                <version>${checkstyle.version}</version>
+                            </dependency>
+                        </dependencies>
+                        <configuration>
+                            <configLocation>ci/checkstyle.xml</configLocation>
+                            <consoleOutput>true</consoleOutput>
+                            <failsOnError>true</failsOnError>
+                            <failOnViolation>true</failOnViolation>
+                        </configuration>
+                        <executions>
+                            <execution>
+                                <phase>validate</phase>
+                                <goals>
+                                    <goal>check</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
                     <plugin>
                         <artifactId>maven-failsafe-plugin</artifactId>
                         <version>${surefire-plugin.version}</version>
